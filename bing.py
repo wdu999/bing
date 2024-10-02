@@ -4,6 +4,7 @@
 
 import glob
 import os
+import sys
 
 import requests
 
@@ -60,8 +61,29 @@ def download(files: list, urls: list, p: str) -> None:
     print("DONE")
 
 
-# loc_path: str = '/Users/v/Pictures/bing-wallpapers'
-loc_path: str = "/Users/v/Library/CloudStorage/OneDrive-Personal/图片/必应壁纸"
+if sys.platform.startswith("linux"):
+    loc_path = os.path.join(os.path.expanduser("~"), "Pictures", "bing")
+elif sys.platform.startswith("darwin"):
+    loc_path = os.path.join(
+        os.path.expanduser("~"),
+        "Library",
+        "CloudStorage",
+        "OneDrive-Personal",
+        "图片",
+        "必应壁纸",
+    )
+elif sys.platform.startswith("win32"):
+    loc_path = os.path.join(
+        os.path.expanduser("~"),
+        "OneDrive",
+        "图片",
+        "必应壁纸",
+    )
+
+if not os.path.isdir(loc_path):
+    os.mkdir(loc_path)
+    print()
+    print(f"creat {loc_path}")
 
 url_en: str = (
     "https://raw.githubusercontent.com/niumoo/bing-wallpaper/main/bing-wallpaper.md"
